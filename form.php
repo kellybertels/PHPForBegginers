@@ -102,6 +102,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         datetime-local: <input type="datetime-local" name="datetime">
     </div>
 
+    <div>
+        <p>Which colour do you like?</p>
+
+        <input type="radio" name="colour" value="blue" checked>Blue<br>
+        <input type="radio" name="colour" value="red">Red<br>
+        <input type="radio" name="colour" value="green">Green
+    </div>
+
     <button>Send</button>
 
 </form>
