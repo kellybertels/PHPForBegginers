@@ -1,7 +1,7 @@
 
 <?php
 //conects with the code to acess database
-include 'database.php';
+include 'includes/database.php';
 
 
 
@@ -19,7 +19,7 @@ $results = mysqli_query($conn, $sql);
  }
 
  ?>
- <?php require 'header.php';?>
+ <?php require 'includes/header.php';?>
          <?php if (empty($articles)): ?>
              <p>No articles found.</p>
          <?php else: ?>
@@ -36,4 +36,4 @@ $results = mysqli_query($conn, $sql);
              </ul>
 
          <?php endif; ?>
-   <?php require 'footer.php';?>
+   <?php require 'includes/footer.php';?>

@@ -1,5 +1,5 @@
 <?php
-include 'database.php';
+include 'includes/database.php';
 //the isset will avoid the attacker to remove the get string
 //this code will avoid SQL injection ( a security issue) checking if the id, is numeric
 if(isset($_GET['id'])&& is_numeric($_GET['id'])){
@@ -22,7 +22,7 @@ if ($results === false) {
   $article = null;
 }
 ?>
- <?php require 'header.php';?>
+ <?php require 'includes/header.php';?>
         <?php if ($article === null): ?>
             <p>Article not found.</p>
         <?php else: ?>
@@ -33,4 +33,4 @@ if ($results === false) {
             </article>
 
         <?php endif; ?>
-   <?php require 'footer.php';?>
+   <?php require 'includes/footer.php';?>
