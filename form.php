@@ -29,6 +29,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         tel: <input type="tel" name="telephone">
     </div>
 
+    <select name="country">
+        <optgroup label="Europe">
+            <option value="germany">Germany</option>
+            <option value="france">France</option>
+            <option value="uk" selected>United Kingdom</option>
+        </optgroup>
+        <optgroup label="America">
+            <option value="brazil">Brazil</option>
+            <option value="canada">Canada</option>
+            <option value="usa">United States</option>
+        </optgroup>
+    </select>
+
     <div>
         url: <input type="url" name="web_address">
     </div>
