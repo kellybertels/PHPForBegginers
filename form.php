@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <optgroup label="Europe">
             <option value="germany">Germany</option>
             <option value="france">France</option>
-            <option value="uk" selected>United Kingdom</option>
+            <option value="uk" >United Kingdom</option>
         </optgroup>
         <optgroup label="America">
-            <option value="brazil">Brazil</option>
+            <option value="brazil"selected>Brazil</option>
             <option value="canada">Canada</option>
             <option value="usa">United States</option>
         </optgroup>
@@ -60,6 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div>
         color: <input type="color" name="colour">
+    </div>
+
+    <p>Which colours do you like?</p>
+
+    <div>
+        <input type="checkbox" name="colours[]" value="red"> Red
+    </div>
+    <div>
+        <input type="checkbox" name="colours[]" value="green"> Green
+    </div>
+    <div>
+        <input type="checkbox" name="colours[]" value="blue"> Blue
     </div>
 
     <div>
