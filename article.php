@@ -10,6 +10,11 @@ if (mysqli_connect_error()) {
     echo mysqli_connect_error();
     exit;
 }
+//the isset will avoid the attacker to remove the get string
+//this code will avoid SQL injection ( a security issue) checking if the id, is numeric
+if(isset($_GET['id'])&& is_numeric($_GET['id'])){
+
+
 
 $sql = "SELECT *
         FROM article
@@ -22,7 +27,10 @@ if ($results === false) {
 } else {
     $article = mysqli_fetch_assoc($results);
 }
-
+//the end of the code to avoid SQL injection, it will set value to null if isnt numeric
+} else {
+  $article = null;
+}
 ?>
 <!DOCTYPE html>
 <html>
