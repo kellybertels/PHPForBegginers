@@ -2,8 +2,8 @@
 <?php
 $db_host = "localhost";
 $db_name = "cms";
-$db_user = "";
-$db_pass ="";
+$db_user = "kelly_cms";
+$db_pass ="v6JEVTv3aDKBehUT";
 
 
 $conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
@@ -13,7 +13,7 @@ if (mysqli_connect_error()){
   exit;
 }
 echo "Connected Sucessfully.";
-/*
+
 
 // this code selects the data from the database
 $sql = "SELECT *
@@ -25,7 +25,8 @@ $results = mysqli_query($conn, $sql);
 if ($results === false){
 echo mysqli_error($conn);
 } else{
-  $articles = mysqli_fetch_all(results);
+  $articles = mysqli_fetch_all($results);
   var_dump($articles);
 }
-*/
+
+//note for my self: do not forget to insert the dollar signs!
