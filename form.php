@@ -16,7 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <form method="post">
-
+<fieldset>
+  <legend>Personal Data</legend>
+<div>
+<label for="title">Title</label>: <input type= "text" name= "title" id="title">
+</div>
     <div>
         text: <input type="text" name="surname" value="Your Name Here.">
     </div>
@@ -41,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="usa">United States</option>
         </optgroup>
     </select>
-
+</fieldset>
     <div>
         url: <input type="url" name="web_address">
     </div>
