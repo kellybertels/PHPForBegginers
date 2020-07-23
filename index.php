@@ -49,10 +49,10 @@ $results = mysqli_query($conn, $sql);
              <ul>
                  <?php foreach ($articles as $article): ?>
                      <li>
-                         <article>
-                             <h2><?= $article['title']; ?></h2>
-                             <p><?= $article['content']; ?></p>
-                         </article>
+                       <article>
+                           <h2><a href="article.php?id=<?= $article['id']; ?>"><?= $article['title']; ?></a></h2>
+                           <p><?= $article['content']; ?></p>
+                       </article>
                      </li>
                  <?php endforeach; ?>
              </ul>
