@@ -1,36 +1,43 @@
 <?php
-include 'includes/database.php';
-//the isset will avoid the attacker to remove the get string
-//this code will avoid SQL injection ( a security issue) checking if the id, is numeric
-if(isset($_GET['id'])&& is_numeric($_GET['id'])){
 
+require 'includes/database.php';
 
+$conn = getDB();
 
-$sql = "SELECT *
-        FROM article
-        WHERE id = " . $_GET['id'];
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-$results = mysqli_query($conn, $sql);
+    $sql = "SELECT *
+            FROM article
+            WHERE id = " . $_GET['id'];
 
-if ($results === false) {
-    echo mysqli_error($conn);
+    $results = mysqli_query($conn, $sql);
+
+    if ($results === false) {
+
+        echo mysqli_error($conn);
+
+    } else {
+
+        $article = mysqli_fetch_assoc($results);
+
+    }
+
 } else {
-    $article = mysqli_fetch_assoc($results);
+    $article = null;
 }
-//the end of the code to avoid SQL injection, it will set value to null if isnt numeric
-} else {
-  $article = null;
-}
+
 ?>
- <?php require 'includes/header.php';?>
-        <?php if ($article === null): ?>
-            <p>Article not found.</p>
-        <?php else: ?>
+<?php require 'includes/header.php'; ?>
 
-            <article>
-                <h2><?= $article['title']; ?></h2>
-                <p><?= $article['content']; ?></p>
-            </article>
+<?php if ($article === null): ?>
+    <p>Article not found.</p>
+<?php else: ?>
 
-        <?php endif; ?>
-   <?php require 'includes/footer.php';?>
+    <article>
+        <h2><?= htmlspecialchars($article['title']); ?></h2>
+        <p><?= htmlspecialchars($article['content']); ?></p>
+    </article>
+
+<?php endif; ?>
+
+<?php require 'includes/footer.php'; ?>

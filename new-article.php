@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = 'Content is required';
     }
 
+
     if (empty($errors)) {
 
         $conn = getDB();
@@ -33,14 +34,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo mysqli_error($conn);
 
         } else {
+          if($published_at == ''){
+            $published_at = null;
+          }
 
             mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
 
             if (mysqli_stmt_execute($stmt)) {
 
                 $id = mysqli_insert_id($conn);
-                echo "Inserted record with ID: $id";
 
+                if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'){
+                  $protocol = 'https';
+                }else{
+                  $protocol ='http';
+                }
+                header ("Location: article.php?id=$id");
+                exit;
+
+                      
             } else {
 
                 echo mysqli_stmt_error($stmt);
