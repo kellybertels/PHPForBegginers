@@ -1,8 +1,9 @@
 <?php
+  require 'includes/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    require 'includes/database.php';
+    $conn = getDB();
 
 //the stmt is a "prepared Estatement" that avoids SQL injection ( adds security)
     $sql = "INSERT INTO article (title, content, published_at)
