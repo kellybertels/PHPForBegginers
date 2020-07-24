@@ -1,44 +1,51 @@
 <?php
+
 require 'includes/database.php';
+
 $errors = [];
+$title = '';
+$content = '';
+$published_at = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if ($_POST['title'] == '') {
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $published_at = $_POST['published_at'];
+
+    if ($title == '') {
         $errors[] = 'Title is required';
     }
-    if ($_POST['content'] == '') {
+    if ($content == '') {
         $errors[] = 'Content is required';
     }
-
 
     if (empty($errors)) {
 
         $conn = getDB();
 
-//the stmt is a "prepared Estatement" that avoids SQL injection ( adds security)
-$sql = "INSERT INTO article (title, content, published_at) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO article (title, content, published_at) VALUES (?, ?, ?)";
 
-$stmt = mysqli_prepare($conn, $sql);
+        $stmt = mysqli_prepare($conn, $sql);
 
-if ($stmt === false) {
+        if ($stmt === false) {
 
-    echo mysqli_error($conn);
+            echo mysqli_error($conn);
 
-} else {
+        } else {
 
-    mysqli_stmt_bind_param($stmt, "sss", $_POST['title'], $_POST['content'], $_POST['published_at']);
+            mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
 
-    if (mysqli_stmt_execute($stmt)) {
+            if (mysqli_stmt_execute($stmt)) {
 
-        $id = mysqli_insert_id($conn);
-        echo "Inserted record with ID: $id";
+                $id = mysqli_insert_id($conn);
+                echo "Inserted record with ID: $id";
 
-    } else {
+            } else {
 
-        echo mysqli_stmt_error($stmt);
+                echo mysqli_stmt_error($stmt);
 
-          }
+            }
         }
     }
 }
@@ -48,29 +55,31 @@ if ($stmt === false) {
 
 <h2>New article</h2>
 
-<?php if(! empty($errors)): ?>
-  <ul>
-    <?php foreach($errors as $error):?>
-    <?= $error ?>
-    <?php endforeach; ?>
-  </ul>
+<?php if (! empty($errors)) : ?>
+    <ul>
+        <?php foreach ($errors as $error) : ?>
+            <li><?= $error ?></li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 <form method="post">
 
     <div>
         <label for="title">Title</label>
-        <input name="title" id="title" placeholder="Article title">
+        <input name="title" id="title" placeholder="Article title" value="<?= $title; ?>">
     </div>
 
     <div>
         <label for="content">Content</label>
-        <textarea name="content" rows="4" cols="40" id="content" placeholder="Article content"></textarea>
+        <textarea name="content" rows="4" cols="40" id="content"
+                  placeholder="Article content"><?= $content; ?></textarea>
     </div>
 
     <div>
         <label for="published_at">Publication date and time</label>
-        <input type="datetime-local" name="published_at" id="published_at">
+        <input type="datetime-local" name="published_at" id="published_at"
+               value="<?= $published_at; ?>">
     </div>
 
     <button>Add</button>
