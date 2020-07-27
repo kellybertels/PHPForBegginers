@@ -1,7 +1,10 @@
 <?php
-//the code to acess the database
 
-
+/**
+ * Get the database connection
+ *
+ * @return object Connection to the database server
+ */
 function getDB()
 {
   $db_host = "localhost";

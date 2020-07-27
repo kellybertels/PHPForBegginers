@@ -1,8 +1,9 @@
 <?php
-
+//the REDIRECT FUNCTION IS HERE IN THE HEADER, TO REDIRECT TO ANOTHER PAGE WHEN A NEW ARTICLE IS ADDED.
 require 'includes/database.php';
+require 'includes/article.php';
+require 'includes/url.php';
 
-$errors = [];
 $title = '';
 $content = '';
 $published_at = '';
@@ -13,13 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $content = $_POST['content'];
     $published_at = $_POST['published_at'];
 
-    if ($title == '') {
-        $errors[] = 'Title is required';
-    }
-    if ($content == '') {
-        $errors[] = 'Content is required';
-    }
-
+    $errors = validateArticle($title, $content, $published_at);   // NEW
 
     if (empty($errors)) {
 
@@ -34,9 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo mysqli_error($conn);
 
         } else {
-          if($published_at == ''){
-            $published_at = null;
-          }
+
+            if ($published_at == '') {
+                $published_at = null;
+            }
 
             mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
 
@@ -44,14 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $id = mysqli_insert_id($conn);
 
-                if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'){
-                  $protocol = 'https';
-                }else{
-                  $protocol ='http';
-                }
-                header ("Location: article.php?id=$id");
-                exit;
-
+                redirect("/PHPForBegginers/article.php?id=$id");
 
             } else {
 
@@ -67,5 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h2>New article</h2>
 
-<?php require 'includes/article-form.php' ?>
+<?php require 'includes/article-form.php'; ?>
+
 <?php require 'includes/footer.php'; ?>
