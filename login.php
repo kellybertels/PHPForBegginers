@@ -6,17 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
   if ($_POST['username'] == 'kelly' && $_POST['password'] =='**123'){
     $_SESSION['is_logged_in'] = true;
 
-    die("login CORRECT");
+    redirect ('/PhPForBegginers');
 
   }else {
-  die("boo");
+  $error ="login incorrect";
 
   }
 }
 ?>
 <?php require 'includes/header.php'; ?>
 <h2>LOGIN</h2>
-
+<?php if (! empty($error)) : ?>
+    <p><?= $error ?></p>
+<?php endif; ?>
 
 
 <form method="post">
