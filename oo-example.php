@@ -1,14 +1,19 @@
 <?php
-//constants are values that do not change
+
 require 'Item.php';
+require 'Book.php';
 
 $my_item = new Item();
+$my_item->name = "TV";
 
-$count = 0;
-$count++;
-define( 'MAXIMUM',100);
+echo $my_item->getListingDescription();
 
 
-define('COLOR', 'red');
+echo "<br>";
 
-echo ITEM::MAX_LENGHT;
+
+$book = new Book();
+$book->name = 'Hamlet';
+$book->author = 'Shakespeare';
+
+echo $book->getListingDescription();
