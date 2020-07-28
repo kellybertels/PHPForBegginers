@@ -1,13 +1,14 @@
 <?php
-
+//constants are values that do not change
 require 'Item.php';
 
-$my_item = new Item('Huge', 'A big item');
+$my_item = new Item();
 
-$item2 = new Item('Small', 'A tiny item');
+$count = 0;
+$count++;
+define( 'MAXIMUM',100);
 
-Item::showCount();
 
-$my_item->name = "A new name";
+define('COLOR', 'red');
 
-echo $my_item->getName();
+echo ITEM::MAX_LENGHT;
