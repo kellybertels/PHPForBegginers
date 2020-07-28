@@ -2,12 +2,12 @@
 
 require 'Item.php';
 
-$my_item = new Item('Huge','a Big item');
+$my_item = new Item('Huge', 'A big item');
 
-$my_item->name = 'Example';
-$my_item->description = 'Anew desc';
+$item2 = new Item('Small', 'A tiny item');
 
-$item2 = new Item('Huge','a Big item');
-$item2->name = 'Another name example';
+Item::showCount();
 
-echo $my_item->getName()," ", $item2->getName();
+$my_item->name = "A new name";
+
+echo $my_item->getName();

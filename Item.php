@@ -2,22 +2,31 @@
 
 class Item
 {
+    public $name;
 
-public $name;
-public $description='This is a Default Value';
+    public $description = 'This is the default';
 
-function __construct($name, $description){
-$this->name = $name;
-$this->description = $description;
+    public static $count = 0;
 
-}
-  function sayHello(){
-  echo "Hello";
-  }
+    public function __construct($name, $description) {
+        $this->name = $name;
+        $this->description = $description;
 
-  	 function getName(){
-      return $this->name;
+        static::$count++;
     }
 
+    public function sayHello()
+    {
+        echo "Hello";
+    }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public static function showCount()
+    {
+        echo static::$count;
+    }
 }
