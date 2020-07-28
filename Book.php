@@ -7,4 +7,9 @@ class Book extends Item
     {
         return parent ::getListingDescription() . " by " . $this->author;
     }
+
+    public function getCode()
+    {
+        return $this->code;
+    }
 }

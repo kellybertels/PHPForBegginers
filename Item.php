@@ -4,6 +4,7 @@
 class Item
 {
     public $name;
+    protected $code = 1234;
 
     public function getListingDescription()
     {
