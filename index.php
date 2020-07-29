@@ -2,6 +2,7 @@
 
  
 require 'classes/Database.php';
+require 'classes/Article.php';
 require 'includes/auth.php';
 
 session_start();
@@ -9,15 +10,9 @@ session_start();
 $db = new Database();
 $conn = $db->getConn();
 
-$sql = "SELECT *
-        FROM article
-        ORDER BY published_at;";
 
-$results = $conn->query($sql);
-//$results = mysqli_query($conn, $sql);
+$articles = Article::getAll($conn);
 
-
-$articles = $results->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php require 'includes/header.php'; ?>
 
