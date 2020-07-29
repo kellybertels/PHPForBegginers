@@ -1,6 +1,16 @@
 <?php
 
 class Article{
+//@var integer
+public $id;
+//@var string
+public $title;
+//@var string
+public $content;
+//@var datetime
+public $published_at;
+
+public $errors = [];
 
     /*Get all articles 
 @param object $conn Connection to the database
@@ -27,28 +37,92 @@ class Article{
  * @return mixed An associative array containing the article with that ID, or null if not found
  */
 public static function getByID($conn, $id, $columns = '*')
-{//PDO allows you to use named parameter replacing the ?
+{
     $sql = "SELECT $columns
             FROM article        
             WHERE id = :id";
-            //WHERE id = ?";
-
+           
     $stmt = $conn->prepare($sql);
-    //$stmt = mysqli_prepare($conn, $sql);
+   
 
     $stmt->bindValue(':id',$id,PDO::PARAM_INT);
-      //  mysqli_stmt_bind_param($stmt, "i", $id);
-
+      
+    //it returns an object 
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Article');
       if ($stmt->execute()){
-        //if (mysqli_stmt_execute($stmt)) {
-
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-           // $result = mysqli_stmt_get_result($stmt);
-           // return mysqli_fetch_array($result, MYSQLI_ASSOC);
         
+
+            return $stmt->fetch();
+           
     }
 }
 
+public function update($conn)
+    {
+if($this->validate()){
 
+    $sql = "UPDATE article
+    SET title = :title,
+    content =:content,
+    published_at = :published_at
+    where id = :id";
+
+$stmt = $conn->prepare($sql);
+
+$stmt ->bindValue(':id',$this->id,PDO::PARAM_INT);
+$stmt ->bindValue(':title',$this->title,PDO::PARAM_STR);
+$stmt ->bindValue(':content',$this->content,PDO::PARAM_STR);
+
+if ($this->published_at ==''){
+    $stmt -> bindValue(':published_at',null,PDO::PARAM_NULL);
+
+}else{
+    $stmt->bindValue(':published_at',$this->published_at,PDO::PARAM_STR);
+}
+return $stmt->execute();
+
+    }else   {
+return false;
+    }
+
+
+}
+    /**
+ * Validate the article properties
+ *
+ * @param string $title Title, required
+ * @param string $content Content, required
+ * @param string $published_at Published date and time, yyyy-mm-dd hh:mm:ss if not blank
+ *
+ * @return array boolean true if the current properties are valid false otherwise
+ */
+protected function validate()
+{
+    if ($this->title == '') {
+        $this->errors[] = 'Title is required';
+    }
+    if ($this->content == '') {
+        $this->errors[] = 'Content is required';
+    }
+
+    if ($this->published_at != '') {
+        $date_time = date_create_from_format('Y-m-d H:i:s', $this->published_at);
+
+        if ($date_time === false) {
+
+            $this->errors[] = 'Invalid date and time';
+
+        } else {
+
+            $date_errors = date_get_last_errors();
+
+            if ($date_errors['warning_count'] > 0) {
+                $this->errors[] = 'Invalid date and time';
+            }
+        }
+    }
+
+    return empty($this->errors);
+}
 
 }
