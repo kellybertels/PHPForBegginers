@@ -17,10 +17,7 @@ $results = $conn->query($sql);
 //$results = mysqli_query($conn, $sql);
 
 
-    $articles =$results->fetchAll(PDO::FETCH_ASSOC);
-   // $articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
-
-
+$articles = $results->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php require 'includes/header.php'; ?>
 

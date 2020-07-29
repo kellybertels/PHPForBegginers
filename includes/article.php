@@ -10,27 +10,25 @@
  * @return mixed An associative array containing the article with that ID, or null if not found
  */
 function getArticle($conn, $id, $columns = '*')
-{
+{//PDO allows you to use named parameter replacing the ?
     $sql = "SELECT $columns
-            FROM article
-            WHERE id = ?";
+            FROM article        
+            WHERE id = :id";
+            //WHERE id = ?";
 
-    $stmt = mysqli_prepare($conn, $sql);
+    $stmt = $conn->prepare($sql);
+    //$stmt = mysqli_prepare($conn, $sql);
 
-    if ($stmt === false) {
+    $stmt->bindValue(':id',$id,PDO::PARAM_INT);
+      //  mysqli_stmt_bind_param($stmt, "i", $id);
 
-        echo mysqli_error($conn);
+      if ($stmt->execute()){
+        //if (mysqli_stmt_execute($stmt)) {
 
-    } else {
-
-        mysqli_stmt_bind_param($stmt, "i", $id);
-
-        if (mysqli_stmt_execute($stmt)) {
-
-            $result = mysqli_stmt_get_result($stmt);
-
-            return mysqli_fetch_array($result, MYSQLI_ASSOC);
-        }
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+           // $result = mysqli_stmt_get_result($stmt);
+           // return mysqli_fetch_array($result, MYSQLI_ASSOC);
+        
     }
 }
 
