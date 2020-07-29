@@ -1,29 +1,54 @@
 <?php
-class User{
 
+/**
+ * User
+ *
+ * A person or entity that can log in to the site
+ */
+class User
+{
+    /**
+     * Unique identifier
+     * @var integer
+     */
     public $id;
+
+    /**
+     * Unique username
+     * @var string
+     */
     public $username;
+
+    /**
+     * Password
+     * @var string
+     */
     public $password;
 
-    public static function authenticate($conn, $username, $password){
+    /**
+     * Authenticate a user by username and password
+     *
+     * @param object $conn Connection to the database
+     * @param string $username Username
+     * @param string $password Password
+     *
+     * @return boolean True if the credentials are correct, null otherwise
+     */
+    public static function authenticate($conn, $username, $password)
+    {
+        $sql = "SELECT *
+                FROM user
+                WHERE username = :username";
 
-$sql= " SELECT *
-        FROM user_error
-        WHERE username =:username";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
 
-$stmt = $conn->prepare($sql);
-$stmt->bindValue(':username', PDO::PARAM_STR);
-$stmt->setFetchMode(PDO::FETCH_CLASS,'User');
-$stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
 
-$user = $stmt->fetch();
+        $stmt->execute();
 
-if($user){
-    if($user->password == $password){
-        return true;
-            }
+        if ($user = $stmt->fetch()) {
+            return $user->password == $password;
         }
     }
-
-
 }
