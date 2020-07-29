@@ -1,7 +1,7 @@
 <?php
 
-//note that I added the classes inside the includes when they were supposed to be outsite the includes here. 
-require 'includes/classes/Database.php';
+ 
+require 'classes/Database.php';
 require 'includes/auth.php';
 
 session_start();
@@ -16,13 +16,10 @@ $sql = "SELECT *
 $results = $conn->query($sql);
 //$results = mysqli_query($conn, $sql);
 
-if ($results === false) {
-    var_dump($conn->errorInfo());
-    //echo mysqli_error($conn);
-} else {
+
     $articles =$results->fetchAll(PDO::FETCH_ASSOC);
    // $articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
-}
+
 
 ?>
 <?php require 'includes/header.php'; ?>
