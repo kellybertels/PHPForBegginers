@@ -124,5 +124,21 @@ protected function validate()
 
     return empty($this->errors);
 }
+/**
+ * Delete the current article
+ * @param object $conn connection to the database
+ * @return boolean True if the delete is sucessfull false otherwise
+ * 
+ */
+public function delete($conn){
+    $sql = "DELETE FROM article 
+            WHERE id = :id;";
+
+$stmt = $conn->prepare($sql);
+
+$stmt ->bindValue(':id',$this->id,PDO::PARAM_INT);
+
+return $stmt->execute();
+}
 
 }
