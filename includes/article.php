@@ -5,7 +5,7 @@
  *
  * @param object $conn Connection to the database
  * @param integer $id the article ID
- *  @param string string $columns Optional list of columns for the select default to *
+ * @param string $columns Optional list of columns for the select, defaults to *
  *
  * @return mixed An associative array containing the article with that ID, or null if not found
  */
@@ -57,7 +57,7 @@ function validateArticle($title, $content, $published_at)
 
     if ($published_at != '') {
         $date_time = date_create_from_format('Y-m-d H:i:s', $published_at);
-
+        
         if ($date_time === false) {
 
             $errors[] = 'Invalid date and time';
