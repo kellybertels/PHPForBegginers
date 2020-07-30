@@ -14,9 +14,8 @@ if (! Auth::isLoggedIn()) {
 $article = new Article();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $conn = require 'includes/db.php';
 
-    $db = new Database();
-    $conn = $db->getConn();
 
     $article->title = $_POST['title'];
     $article->content = $_POST['content'];

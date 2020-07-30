@@ -2,8 +2,8 @@
 
 require 'includes/init.php';
 
-$db = new Database();
-$conn = $db->getConn();
+$conn = require 'includes/db.php';
+
 
 if (isset($_GET['id'])) {
 
