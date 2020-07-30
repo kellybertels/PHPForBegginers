@@ -2,7 +2,7 @@
 
 require 'classes/Database.php';
 require 'classes/Article.php';
-require 'includes/url.php';
+require 'classes/Url.php';
 
 $db = new Database();
 $conn = $db->getConn();
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if($article->delete($conn)){
 
-            redirect("/PHPForBegginers/index.php");
+            Url::redirect("/PHPForBegginers/index.php");
 
         } 
     }

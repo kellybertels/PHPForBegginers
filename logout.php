@@ -1,5 +1,5 @@
 <?php
-require 'includes/url.php';
+require 'classes/Url.php';
 // Initialize the session.
 // If you are using session_name("something"), don't forget it now!
 session_start();
@@ -20,4 +20,4 @@ if (ini_get("session.use_cookies")) {
 // Finally, destroy the session.
 session_destroy();
 
-redirect ('/PhPForBegginers');
+Url::redirect ('/PhPForBegginers');
