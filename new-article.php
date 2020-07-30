@@ -1,13 +1,9 @@
 <?php
 //the REDIRECT FUNCTION IS HERE IN THE HEADER, TO REDIRECT TO ANOTHER PAGE WHEN A NEW ARTICLE IS ADDED.
 
+require 'includes/init.php';
 
-require 'classes/Database.php';
-require 'classes/Article.php';
-require 'classes/Url.php';
-require 'classes/Auth.php';
 
-session_start();
 
 if (! Auth::isLoggedIn()) {
 
