@@ -44,7 +44,7 @@ class User
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
-
+               
         $stmt->execute();
 
         if ($user = $stmt->fetch()) {
