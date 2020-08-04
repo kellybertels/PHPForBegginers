@@ -1,18 +1,15 @@
 <?php
 
- require 'includes/init.php';
+require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-//using Null coalescing operator to do the pagination PHP 7
-$paginator = new Paginator ($_GET['page'] ?? 1, 4, Article::getTotal($conn) );
+$paginator = new Paginator($_GET['page'] ?? 1, 4, Article::getTotal($conn));
 
-$articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
+$articles = Article::getPage($conn, $paginator->limit, $paginator->offset);
 
 ?>
 <?php require 'includes/header.php'; ?>
-
-
 
 <?php if (empty($articles)) : ?>
     <p>No articles found.</p>
@@ -29,8 +26,7 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
         <?php endforeach; ?>
     </ul>
 
-    
-<?php require 'includes/pagination.php';?>
+<?php require 'includes/pagination.php'; ?>
 
 <?php endif; ?>
 

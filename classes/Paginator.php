@@ -1,49 +1,66 @@
 <?php
+
 /**
  * Paginator
- * Data for selection a page of records
+ *
+ * Data for selecting a page of records
  */
-class Paginator{
-    /**Number of records to return
+class Paginator
+{
+    /**
+     * Number of records to return
      * @var integer
      */
-public $limit;
-/**Number of records to skip before the page
- * @var integer
- */
-public $offset;
+    public $limit;
 
-public $previous;
-public $next;
+    /**
+     * Number of records to skip before the page
+     * @var integer
+     */
+    public $offset;
 
-public function __construct($page, $records_per_page, $total_records)
-{
-/** Constructor
- * @param integer $page  Page_number
- * @param integer $records_per_page Number of records per page
- * 
- * return void
- */
-$this ->limit = $records_per_page;
-//var_dump($page);
-$page = filter_var($page, FILTER_VALIDATE_INT,[
-    'options' => [
-        'default' => 1,
-        'min_range' => 1
-    ]
-]);
-if ($page >1){
-  $this->previous = $page -1;  
-}
+    /**
+     * Previous page number
+     * @var integer
+     */
+    public $previous;
 
-$total_pages = ceil($total_records / $records_per_page);
-if ($page < $total_pages){
-  $this -> next = $page + 1;  
-}
+    /**
+     * Next page number
+     * @var integer
+     */
+    public $next;
 
+    /**
+     * Constructor
+     *
+     * @param integer $page Page number
+     * @param integer $records_per_page Number of records per page
+     * @param integer $total Total number of records
+     *
+     * @return void
+     */
+    public function __construct($page, $records_per_page, $total_records)
+    {
+        $this->limit = $records_per_page;
 
-$this-> offset = $records_per_page * ($page -1);
+        $page = filter_var($page, FILTER_VALIDATE_INT, [
+            'options' => [
+                'default'   => 1,
+                'min_range' => 1
+            ]
+        ]);
 
-}
+        if ($page > 1) {
+            $this->previous = $page - 1;
+        }
 
+        $total_pages = ceil($total_records / $records_per_page);
+
+        if ($page < $total_pages) {
+            $this->next = $page + 1;
+        }
+
+        $this->offset = $records_per_page * ($page - 1);
+    }
 }
