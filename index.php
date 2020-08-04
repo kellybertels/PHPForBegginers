@@ -4,8 +4,8 @@
 
 $conn = require 'includes/db.php';
 
-//using ternary operator to do the pagination (boolean)
-$paginator = new Paginator (isset($_GET['page']) ? $_GET['page'] : 1, 4);
+//using Null coalescing operator to do the pagination PHP 7
+$paginator = new Paginator ($_GET['page'] ?? 1, 4);
 
 $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 
