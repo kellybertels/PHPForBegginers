@@ -22,6 +22,15 @@ public function __construct($page, $records_per_page)
  * return void
  */
 $this ->limit = $records_per_page;
+//var_dump($page);
+$page = filter_var($page, FILTER_VALIDATE_INT,[
+    'options' => [
+        'default' => 1,
+        'minimum_range' => 1
+    ]
+]);
+
+
 $this-> offset = $records_per_page *($page -1);
 
 }
