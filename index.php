@@ -4,12 +4,8 @@
 
 $conn = require 'includes/db.php';
 
-
-if(isset($_GET['page'])){
-$paginator = new Paginator($_GET['page'], 4);
-}else {
-    $paginator = new Paginator(1, 4);
-}
+//using ternary operator to do the pagination (boolean)
+$paginator = new Paginator (isset($_GET['page']) ? $_GET['page'] : 1, 4);
 
 $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 
