@@ -1,4 +1,5 @@
 <?php
+//phpinfo(); used to check the max file size allowed
 require '../includes/init.php';
 
 Auth::requireLogin();
@@ -19,22 +20,34 @@ if (isset($_GET['id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-var_dump($_FILES);
-try{
-switch ($_FILES['file']['error']){
-    case UPLOAD_ERR_OK:
-    break;
-    case UPLOAD_ERR_NO_FILE:
-        Throw new Exception('No file uploaded');
-    break;
-    default:
-    throw new Exception('An error ocurred');
-}
 
-}catch(Exception $e){
-    echo $e->getMessage();
+    var_dump($_FILES);
 
-}
+    try {
+
+        if (empty($_FILES)) {
+            throw new Exception('Invalid upload');
+        }
+
+        switch ($_FILES['file']['error']) {
+            case UPLOAD_ERR_OK:
+                break;
+
+            case UPLOAD_ERR_NO_FILE:
+                throw new Exception('No file uploaded');
+                break;
+
+            case UPLOAD_ERR_INI_SIZE:
+                throw new Exception('File is too large (from the server settings)');
+                break;
+
+            default:
+                throw new Exception('An error occurred');
+        }
+
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 }
 
 ?>
