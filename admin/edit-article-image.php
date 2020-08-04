@@ -1,11 +1,10 @@
 <?php
-//phpinfo(); used to check the max file size allowed
+
 require '../includes/init.php';
 
 Auth::requireLogin();
 
 $conn = require '../includes/db.php';
-
 
 if (isset($_GET['id'])) {
 
@@ -18,7 +17,6 @@ if (isset($_GET['id'])) {
 } else {
     die("id not supplied, article not found");
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -46,10 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception('An error occurred');
         }
 
+        // Restrict the file size
         if ($_FILES['file']['size'] > 1000000) {
+
             throw new Exception('File is too large');
+
         }
 
+        // Restrict the file type
         $mime_types = ['image/gif', 'image/png', 'image/jpeg'];
 
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -60,25 +62,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception('Invalid file type');
 
         }
-       //security that avoids a person to move the file to somewhere else - SANITIZE
-       $pathinfo = pathinfo($_FILES["file"]["name"]);
 
-       $base = $pathinfo['filename'];
+        // Move the uploaded file
+        $pathinfo = pathinfo($_FILES["file"]["name"]);
 
-       $base = preg_replace('/[^a-zA-Z0-9_-]/', '_', $base);
+        $base = $pathinfo['filename'];
 
-       $filename = $base . "." . $pathinfo['extension'];
+        // Replace any characters that aren't letters, numbers, underscores or hyphens with an underscore
+        $base = preg_replace('/[^a-zA-Z0-9_-]/', '_', $base);
 
-       $destination = "../uploads/$filename";  
+        $filename = $base . "." . $pathinfo['extension'];
 
+        $destination = "../uploads/$filename";
 
-        //$destination = "../uploads/" . $_FILES['file']['name'];
-        if (move_uploaded_file($_FILES['file']['tmp_name'],$destination)){
-            echo "file uploaded sucessfully";
-        }else{
-            throw new Exception('unale to move uploaded file');
+        $i = 1;
+
+        while (file_exists($destination)) {
+
+            $filename = $base . "-$i." . $pathinfo['extension'];
+            $destination = "../uploads/$filename";
+
+            $i++;
         }
 
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+
+            echo "File uploaded successfully.";
+
+        } else {
+
+            throw new Exception('Unable to move uploaded file');
+
+        }
 
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -91,12 +106,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h2>Edit article image</h2>
 
 <form method="post" enctype="multipart/form-data">
-<div>
-<label for="file" >image file</label>
-<input type="file" name="file" id="file">
-</div>
 
-<button> Upload</button>
+    <div>
+        <label for="file">Image file</label>
+        <input type="file" name="file" id="file">
+    </div>
+
+    <button>Upload</button>
+
 </form>
 
 <?php require '../includes/footer.php'; ?>
