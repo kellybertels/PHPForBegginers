@@ -108,6 +108,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require '../includes/header.php'; ?>
 
 <h2>Edit article image</h2>
+<?php if ($article->image_file) : ?>
+            <img src="/PHPForBegginers/uploads/<?= $article->image_file; ?>">
+        <?php endif; ?>
 
 <form method="post" enctype="multipart/form-data">
 
