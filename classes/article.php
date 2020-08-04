@@ -214,19 +214,19 @@ return $conn->query('SELECT COUNT(*)FROM article') -> fetchColumn();
  * @return boolean True if it was sucessful, false otherwise
  */
 
-public function setImageFile($conn,$filename)
-{
-    $sql = "UPDATE article
-            SET image_file = :image_file
-            WHERE id = :id";
+public function setImageFile($conn, $filename)
+    {
+       $sql = "UPDATE article
+               SET image_file = :image_file
+               WHERE id = :id";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(':id' , $this->id, PDO::PARAM_INT);
-    $stmt->bindValue(':image_file',$filename,PDO::PARAM_STR);
+       $stmt = $conn->prepare($sql);
 
-    return $stmt ->execute();
+       $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+       $stmt->bindValue(':image_file', $filename, $filename == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 
-}
+       return $stmt->execute();
+    }
 
 
 }
