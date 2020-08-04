@@ -17,6 +17,7 @@ public $errors = [];
 @return array An associative array of all article records
 
     */
+
     public static function getAll($conn){
         $sql = "SELECT *
         FROM article
@@ -26,6 +27,27 @@ public $errors = [];
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    /* Get article and separate them based on a limit, its add pages. */
+public static function getPage($conn, $limit, $offset){
+
+    $sql = "SELECT *
+            FROM article
+            ORDER BY published_at
+            LIMIT :limit
+            OFFSET :offset";
+    $stmt = $conn ->prepare($sql);
+
+    $stmt ->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt ->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt ->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 /**
  * Get the article record based on the ID
