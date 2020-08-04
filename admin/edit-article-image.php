@@ -71,12 +71,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Replace any characters that aren't letters, numbers, underscores or hyphens with an underscore
         $base = preg_replace('/[^a-zA-Z0-9_-]/', '_', $base);
 
-        $base =mb_substr($base,0,200);
+        // Restrict the filename to 200 characters
+        $base = mb_substr($base, 0, 200);
 
         $filename = $base . "." . $pathinfo['extension'];
 
         $destination = "../uploads/$filename";
 
+        // Add a numeric suffix to the filename to avoid overwriting existing files
         $i = 1;
 
         while (file_exists($destination)) {
@@ -89,9 +91,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
 
-           if ( $article ->setImageFile($conn, $filename)){
-            Url::redirect("/PHPForBegginers/admin/article.php?id={$article->id}");
-                   }
+            $previous_image = $article->image_file;
+
+            if ($article->setImageFile($conn, $filename)) {
+
+                if ($previous_image) {
+                    unlink("../uploads/$previous_image");
+                }
+
+                Url::redirect("/PHPForBegginers/admin/edit-article-image.php?id={$article->id}");
+
+            }
 
         } else {
 
@@ -108,9 +118,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require '../includes/header.php'; ?>
 
 <h2>Edit article image</h2>
+
 <?php if ($article->image_file) : ?>
-            <img src="/PHPForBegginers/uploads/<?= $article->image_file; ?>">
-        <?php endif; ?>
+    <img src="/PHPForBegginers/uploads/<?= $article->image_file; ?>">
+<?php endif; ?>
 
 <form method="post" enctype="multipart/form-data">
 
