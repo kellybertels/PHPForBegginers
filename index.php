@@ -5,7 +5,7 @@
 $conn = require 'includes/db.php';
 
 //using Null coalescing operator to do the pagination PHP 7
-$paginator = new Paginator ($_GET['page'] ?? 1, 4);
+$paginator = new Paginator ($_GET['page'] ?? 1, 4, Article::getTotal($conn) );
 
 $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 
@@ -28,6 +28,25 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
             </li>
         <?php endforeach; ?>
     </ul>
+
+    <nav>
+        <ul>
+            <li>
+                <?php if ($paginator -> previous): ?>
+                <a href="?page=<?= $paginator->previous; ?>">Previous</a>
+                <?php else: ?>
+                Previous
+                <?php endif;?>
+            </li>
+            <li>
+                <?php if ($paginator->next): ?>
+                <a href="?page=<?= $paginator->next; ?>">Next</a>
+                <?php else: ?>
+                    Next
+                <?php endif; ?>
+            </li>
+        </ul>
+    </nav>
 
 <?php endif; ?>
 
