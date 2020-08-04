@@ -6,7 +6,9 @@ $conn = require '../includes/db.php';
 
 
 
-$articles = Article::getAll($conn);
+$paginator = new Paginator ($_GET['page'] ?? 1, 6, Article::getTotal($conn) );
+$articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
+
 
 ?>
 <?php require '../includes/header.php'; ?>
@@ -36,6 +38,8 @@ $articles = Article::getAll($conn);
         <?php endforeach; ?>
     </tbody>
     </table>
+
+  <?php require '../includes/pagination.php';?>
 
 <?php endif; ?>
 
