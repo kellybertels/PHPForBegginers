@@ -71,6 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Replace any characters that aren't letters, numbers, underscores or hyphens with an underscore
         $base = preg_replace('/[^a-zA-Z0-9_-]/', '_', $base);
 
+        $base =mb_substr($base,0,200);
+
         $filename = $base . "." . $pathinfo['extension'];
 
         $destination = "../uploads/$filename";
@@ -87,7 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
 
-            echo "File uploaded successfully.";
+           if ( $article ->setImageFile($conn, $filename)){
+            Url::redirect("/PHPForBegginers/admin/article.php?id={$article->id}");
+                   }
 
         } else {
 
