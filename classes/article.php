@@ -104,12 +104,20 @@ public static function getWithCategories($conn, $id)
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Get the article's categories
+     *
+     * @param object $conn Connection to the database
+     *
+     * @return array The category data
+     */
     public function getCategories($conn)
     {
         $sql = "SELECT category.*
                 FROM category
-                JOIN article_category
-                ON category.id = article_category.category_id
+                JOIN article_category2
+                ON category.id = article_category2.category_id
                 WHERE article_id = :id";
 
         $stmt = $conn->prepare($sql);
