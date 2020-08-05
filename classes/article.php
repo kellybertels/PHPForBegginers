@@ -80,6 +80,46 @@ public static function getByID($conn, $id, $columns = '*')
            
     }
 }
+/**
+ * Get the article record based on the ID along with associated categories
+ * @param object $conn Connection to the database
+ * @param integer $id the article ID
+ * 
+ * @return array the article data with categories
+ */
+public static function getWithCategories($conn, $id)
+    {
+        $sql = "SELECT article.*, category.name AS category_name
+                FROM article
+                LEFT JOIN article_category2
+                ON article.id = article_category2.article_id
+                LEFT JOIN category
+                ON article_category2.category_id = category.id
+                WHERE article.id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getCategories($conn)
+    {
+        $sql = "SELECT category.*
+                FROM category
+                JOIN article_category
+                ON category.id = article_category.category_id
+                WHERE article_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 public function update($conn)
     {

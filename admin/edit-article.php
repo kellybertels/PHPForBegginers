@@ -17,6 +17,7 @@ if (isset($_GET['id'])) {
 } else {
     die("id not supplied, article not found");
 }
+var_dump($article->getCategories($conn));
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
