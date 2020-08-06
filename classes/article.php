@@ -32,23 +32,49 @@ public $errors = [];
 
 
     /* Get article and separate them based on a limit, its add pages. */
-public static function getPage($conn, $limit, $offset){
+    public static function getPage($conn, $limit, $offset)
+    {
+        $sql = "SELECT a.*, category.name AS category_name
+                FROM (SELECT *
+                FROM article
+                ORDER BY published_at
+                LIMIT :limit
+                OFFSET :offset) AS a
+                LEFT JOIN article_category2
+                ON a.id = article_category2.article_id
+                LEFT JOIN category
+                ON article_category2.category_id = category.id";
 
-    $sql = "SELECT *
-            FROM article
-            ORDER BY published_at
-            LIMIT :limit
-            OFFSET :offset";
-    $stmt = $conn ->prepare($sql);
+        $stmt = $conn->prepare($sql);
 
-    $stmt ->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt ->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    return $stmt ->fetchAll(PDO::FETCH_ASSOC);
-}
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $articles = [];
+
+        $previous_id = null;
+
+        foreach ($results as $row) {
+
+            $article_id = $row['id'];
+
+            if ($article_id != $previous_id) {
+                $row['category_names'] = [];
+
+                $articles[$article_id] = $row;
+            }
+
+            $articles[$article_id]['category_names'][] = $row['category_name'];
+
+            $previous_id = $article_id;
+        }
+//var_dump($articles);
+        return $articles;
+    }
 
 
 /**
