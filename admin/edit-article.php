@@ -32,7 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $article->title = $_POST['title'];
     $article->content = $_POST['content'];
     $article->published_at = $_POST['published_at'];
+    $category_ids = $_POST['category'] ?? [];
+    //this ?? [] assign to an empty array if it is submited empty
 
+   if($article->update($conn)){
+       $article->setCategories($conn,$category_ids);
+   }
   
 
         if ($article->update($conn)) {
@@ -48,6 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h2>Edit article</h2>
 
-<?php require '../includes/article-form.php'; ?>
+<?php require '../admin/includes/article-form.php'; ?>
 
 <?php require '../includes/footer.php'; ?>
