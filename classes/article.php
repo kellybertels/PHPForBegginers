@@ -31,19 +31,18 @@ public $errors = [];
     }
 
 
-    /* Get article and separate them based on a limit, its add pages. */
     public static function getPage($conn, $limit, $offset, $only_published = false)
     {
-
-    $condition = 'WHERE published_at IS NOT NULL'; 
+        $condition = $only_published ? ' WHERE published_at IS NOT NULL' : '';
 
         $sql = "SELECT a.*, category.name AS category_name
-                FROM (SELECT *
-                FROM article
-                $condition
-                ORDER BY published_at
-                LIMIT :limit
-                OFFSET :offset) AS a
+                FROM (
+                    SELECT *
+                    FROM article
+                    $condition
+                    ORDER BY published_at
+                    LIMIT :limit
+                    OFFSET :offset) AS a
                 LEFT JOIN article_category2
                 ON a.id = article_category2.article_id
                 LEFT JOIN category
@@ -58,6 +57,8 @@ public $errors = [];
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Consolidate the article records into a single element for each article,
+        // putting the category names into an array
         $articles = [];
 
         $previous_id = null;
@@ -76,7 +77,7 @@ public $errors = [];
 
             $previous_id = $article_id;
         }
-//var_dump($articles);
+
         return $articles;
     }
 
@@ -118,26 +119,26 @@ public static function getByID($conn, $id, $columns = '*')
  * @return array the article data with categories
  */
 public static function getWithCategories($conn, $id, $only_published = false)
-    {
-        $sql = "SELECT article.*, category.name AS category_name
-                FROM article
-                LEFT JOIN article_category2
-                ON article.id = article_category2.article_id
-                LEFT JOIN category
-                ON article_category2.category_id = category.id
-                WHERE article.id = :id";
+{
+    $sql = "SELECT article.*, category.name AS category_name
+            FROM article
+            LEFT JOIN article_category2
+            ON article.id = article_category2.article_id
+            LEFT JOIN category
+            ON article_category2.category_id = category.id
+            WHERE article.id = :id";
 
-        if ($only_published) {
-            $sql .= ' AND article.published_at IS NOT NULL';
-        }
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($only_published) {
+        $sql .= ' AND article.published_at IS NOT NULL';
     }
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     /**
      * Get the article's categories
@@ -339,10 +340,11 @@ public function create($conn)
  * @param object $conn Connection to the database
  * @return integer the total number of records
  */
-public static function getTotal($conn)
+public static function getTotal($conn, $only_published = false)
 {
-    //COUNT THE TOTAL NUMBER OF ARTICLES and return the value directly using fetch
-return $conn->query('SELECT COUNT(*)FROM article') -> fetchColumn();
+    $condition = $only_published ? ' WHERE published_at IS NOT NULL' : '';
+
+    return $conn->query("SELECT COUNT(*) FROM article$condition")->fetchColumn();
 }
 
 /**

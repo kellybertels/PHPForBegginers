@@ -25,17 +25,26 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 
     <table>
     <thead>
+        <tr>
     <th>Title</th>
+    <th>Published</th>
+</tr>
     </thead>
     <tbody>
-        <?php foreach ($articles as $article) : ?>
-            <tr>
-                <td>
-                    <a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
-                  
-        </td>
-        </tr>
-        <?php endforeach; ?>
+    <?php foreach ($articles as $article) : ?>
+                <tr>
+                    <td>
+                        <a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a>
+                    </td>
+                    <td>
+                        <?php if ($article['published_at']) : ?>
+                            <time><?= $article['published_at'] ?></time>
+                        <?php else : ?>
+                            Unpublished
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
     </tbody>
     </table>
 
