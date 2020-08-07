@@ -63,3 +63,21 @@ $('#published_at').datetimepicker({
     format:'Y-m-d H:i:s'
 
 });
+
+$('#formContact').validate({
+rules:{
+    email:{
+        required:true,
+        email:true
+    },
+    subject:{
+        required:true,
+
+    },
+    message:{
+        required:true,
+    }
+}
+
+
+});

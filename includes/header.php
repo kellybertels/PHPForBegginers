@@ -22,6 +22,7 @@
             <?php else: ?>
                 <li class = "nav-item" ><a class = "nav-link" href='/PHPForBegginers/login.php'>Log in</a></li>
             <?php endif; ?>
+            <li class = "nav-item" ><a class = "nav-link" href='/PHPForBegginers/contact.php'>Contact</a></li>
         </ul>
     </nav>
 

@@ -6,3 +6,6 @@ ul#index{
 ul#index li {
     list-style-type: none;
 }
+#message{
+    height: 15em;
+}
