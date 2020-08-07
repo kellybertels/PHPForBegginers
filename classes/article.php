@@ -32,11 +32,15 @@ public $errors = [];
 
 
     /* Get article and separate them based on a limit, its add pages. */
-    public static function getPage($conn, $limit, $offset)
+    public static function getPage($conn, $limit, $offset, $only_published = false)
     {
+
+    $condition = 'WHERE published_at IS NOT NULL'; 
+
         $sql = "SELECT a.*, category.name AS category_name
                 FROM (SELECT *
                 FROM article
+                $condition
                 ORDER BY published_at
                 LIMIT :limit
                 OFFSET :offset) AS a
@@ -113,7 +117,7 @@ public static function getByID($conn, $id, $columns = '*')
  * 
  * @return array the article data with categories
  */
-public static function getWithCategories($conn, $id)
+public static function getWithCategories($conn, $id, $only_published = false)
     {
         $sql = "SELECT article.*, category.name AS category_name
                 FROM article
@@ -122,6 +126,10 @@ public static function getWithCategories($conn, $id)
                 LEFT JOIN category
                 ON article_category2.category_id = category.id
                 WHERE article.id = :id";
+
+        if ($only_published){
+            $sql .= 'AND article.published_at IS NOT NULL';
+        }
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
