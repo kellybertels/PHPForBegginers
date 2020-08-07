@@ -59,4 +59,7 @@ $("button.publish").on("click", function(e){
 
 });
 
-$('#published_at').datetimepicker();
+$('#published_at').datetimepicker({
+    format:'Y-m-d H:i:s'
+
+});
