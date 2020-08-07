@@ -127,8 +127,8 @@ public static function getWithCategories($conn, $id, $only_published = false)
                 ON article_category2.category_id = category.id
                 WHERE article.id = :id";
 
-        if ($only_published){
-            $sql .= 'AND article.published_at IS NOT NULL';
+        if ($only_published) {
+            $sql .= ' AND article.published_at IS NOT NULL';
         }
 
         $stmt = $conn->prepare($sql);
