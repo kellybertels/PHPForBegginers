@@ -39,3 +39,22 @@ $("#formArticle").validate({
         }
     }
 });
+
+
+$("button.publish").on("click", function(e){
+
+    var id = $(this).data('id');
+    var button = $(this);
+   $.ajax({
+        url:'/PHPForBegginers/admin/publish-article.php',
+        
+        type:'POST',
+        data:{id: id}
+
+   })
+   .done(function(data){
+       button.parent().html(data);
+
+   });
+
+});

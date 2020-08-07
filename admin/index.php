@@ -31,6 +31,8 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 </tr>
     </thead>
     <tbody>
+
+
     <?php foreach ($articles as $article) : ?>
                 <tr>
                     <td>
@@ -41,11 +43,12 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
                             <time><?= $article['published_at'] ?></time>
                         <?php else : ?>
                             Unpublished
+                            <button class="publish" data-id="<?= $article['id'] ?>">Publish</button>
                         <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
-    </tbody>
+        </tbody>
     </table>
 
   <?php require '../includes/pagination.php';?>
