@@ -20,7 +20,7 @@
 
     <div class="form-group">
         <label for="published_at">Publication date and time</label>
-        <input class="form-control" type="dateTime" name="published_at" id="published_at" value="<?= htmlspecialchars($article->published_at); ?>">
+        <input class="form-control"  name="published_at" id="published_at" value="<?= htmlspecialchars($article->published_at); ?>">
     </div>
 
     <fieldset>

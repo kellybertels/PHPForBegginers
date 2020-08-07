@@ -58,3 +58,5 @@ $("button.publish").on("click", function(e){
    });
 
 });
+
+$('#published_at').datetimepicker();

@@ -7,7 +7,10 @@
 
   <script src = "https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
   
+  <script src="/PHPForBegginers/js/jquery.datetimepicker.full.min.js"> </script>
   <script src="/PHPForBegginers/js/script.js"> </script>
+
+  
 
 </div >
 </body>
