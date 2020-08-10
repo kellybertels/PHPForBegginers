@@ -9,3 +9,4 @@ require dirname(__DIR__) . "/classes/{$class}.php";
 });
 
 session_start();
+require dirname(__DIR__) . '/config.php';

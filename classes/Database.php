@@ -6,6 +6,27 @@ A connection to the database
 
 class Database
 {
+
+    protected $db_host;    
+    protected $db_name;
+    protected $db_user;
+    protected $db_pass;
+
+    /**Constructor
+     * @param string $host hoesname
+     * @param string $name Database name
+     * @param String $user Username
+     * @param String $password Password
+     */
+
+     public function __construct($host,$name,$user,$password)
+     {
+         $this->db_host =$host;
+         $this->db_name =$name;
+         $this->db_user = $user;
+         $this->db_pass = $password;
+     }
+
 /* get the dabase connection
  *
  * 
@@ -16,17 +37,22 @@ class Database
 
 
 
-    public function getConn()
-    {
-        $db_host = "localhost";
-        $db_name = "cms";
-        $db_user = "kelly_cms";
-        $db_pass ="v6JEVTv3aDKBehUT";
-   
-        $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8';
-    
-    return new PDO($dsn, $db_user, $db_pass);
+public function getConn()
+{
+    $dsn = 'mysql:host=' . $this->db_host . ';dbname=' . $this->db_name . ';charset=utf8';
+
+    try {
+
+        $db = new PDO($dsn, $this->db_user, $this->db_pass);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return $db;
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        exit;
     }
+}
 
 
 }
