@@ -45,14 +45,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Restrict the file size
-        if ($_FILES['file']['size'] > 1000000) {
+        if ($_FILES['file']['size'] > 5000000) {
 
             throw new Exception('File is too large');
 
         }
 
         // Restrict the file type
-        $mime_types = ['image/gif', 'image/png', 'image/jpeg'];
+        $mime_types = ['image/gif', 'image/png', 'image/jpeg', 'image/jpg'];
 
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_file($finfo, $_FILES['file']['tmp_name']);
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php if ($article->image_file) : ?>
     <img src="/PHPForBegginers/uploads/<?= $article->image_file; ?>">
-    <a class="delete" href="delete-article-image.php?id=<?= $article->id; ?>">Delete</a>
+    <a class="delete" href="delete-article-image.php?id=<?= $article->id; ?>">Delete image</a>
     <?php endif; ?>
 
 <form method="post" enctype="multipart/form-data">

@@ -56,7 +56,7 @@ $("button.publish").on("click", function(e){
        button.parent().html(data);
 
    })
-   .fail(function(data)
+   .fail(function()
    {
 
     alert("an Error ocurred");

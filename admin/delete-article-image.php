@@ -26,8 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($previous_image) {
             unlink("../uploads/$previous_image");
+            
         }
-
+       
         Url::redirect("/PHPForBegginers/admin/edit-article-image.php?id={$article->id}");
     }
 }
@@ -35,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <?php require '../includes/header.php'; ?>
 
+<!-- //this is the validation code in case javascript is off -->
 <h2>Delete article image</h2>
 
 <?php if ($article->image_file) : ?>
