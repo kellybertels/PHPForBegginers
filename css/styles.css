@@ -9,3 +9,8 @@ ul#index li {
 #message{
     height: 15em;
 }
+a{
+    text-decoration: underline;
+  }
+
+  
