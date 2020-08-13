@@ -7,8 +7,6 @@ require 'vendor/PHPMailer/src/Exception.php';
 require 'vendor/PHPMailer/src/PHPMailer.php';
 require 'vendor/PHPMailer/src/SMTP.php';
 
-
-
 require 'includes/init.php';
 
 $email = '';
@@ -41,24 +39,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail = new PHPMailer(true);
 
         try {
-
+            $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host = 'SMTP_HOST';
+
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Host = SMTP_HOST;
             $mail->SMTPAuth = true;
-            $mail->Username = 'SMTP_USER';
-            $mail->Password = 'SMTP_PASS';
+            $mail->Username = SMTP_USER;
+            $mail->Password = SMTP_PASS;
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
+            $mail->IsHTML(true);
             $mail->setFrom('sender@example.com');
-            $mail->addAddress('recipient@example.com');
+            $mail->addAddress(SMTP_USER);
             $mail->addReplyTo($email);
             $mail->Subject = $subject;
             $mail->Body = $message;
 
-            $mail->send();
-
-            $sent = true;
+            $sent = $mail->send();
 
         } catch (Exception $e) {
 
