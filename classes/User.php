@@ -25,6 +25,8 @@ class User
      */
     public $password;
 
+   
+
     /**
      * Authenticate a user by username and password
      *
@@ -51,4 +53,81 @@ class User
             return $user->password == $password;
         }
     }
+
+    public static function getUserByID($conn, $id, $columns = '*')
+    {
+        $sql = "SELECT $columns
+                FROM user        
+                WHERE id = :id";
+               
+        $stmt = $conn->prepare($sql);
+       
+    
+        $stmt->bindValue(':id',$id,PDO::PARAM_INT);
+          
+        //it returns an object 
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+          if ($stmt->execute()){
+            
+    
+                return $stmt->fetch();
+               
+        }
+    }
+
+
+    public static function getTotal($conn, $user_exists = false)
+{
+    $condition = $user_exists ? ' WHERE username IS NOT NULL' : '';
+
+    return $conn->query("SELECT COUNT(*) FROM user$condition")->fetchColumn();
+}
+
+
+
+
+protected function validate()
+{
+    if ($this->username == '') {
+        $this->errors[] = 'Please enter a username';
+    }
+    if ($this->password == '') {
+        $this->errors[] = 'Please enter a password';
+    }
+
+   
+
+    return empty($this->errors);
+}
+
+
+
+
+public function create($conn)
+{
+    if ($this->validate()) {
+
+        $sql = "INSERT INTO user (username, password)
+                VALUES (:username, :password)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
+
+       
+
+        if ($stmt->execute()) {
+            $this->id = $conn->lastInsertId();
+            return true;
+        }
+
+    } else {
+        return false;
+    }
+}
+  
+
+
+
 }
