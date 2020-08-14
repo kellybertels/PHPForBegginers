@@ -27,7 +27,7 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset, true)
                     ?></time>
 
                     <?php if ($article['category_names']) : ?>
-                        <p>Categories:
+                        <p id="categories">Categories:
                             <?php foreach ($article['category_names'] as $name) : ?>
 
                                 <?= htmlspecialchars($name); ?>

@@ -1,6 +1,6 @@
 
 
-<form method="post">
+<form method="post" id="formUser">
 
     <div>
         <label for="username">Username</label>
@@ -13,8 +13,8 @@
     </div>
 
     <div>
-        <label for="confirm-password">confirm your Password</label>
-        <input name="confirm-password" type = "password" id="confirm-password"  >
+        <label for="confirm_password">confirm your Password</label>
+        <input name="confirm_password" type = "password" id="confirm_password"  >
     </div>
 
  

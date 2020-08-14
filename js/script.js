@@ -40,6 +40,20 @@ $("#formArticle").validate({
     }
 });
 
+$("#formUser").validate({
+    rules:{
+        username: {
+            required: true
+        },
+        password:{
+            required: true
+        },
+        confirm_password:{
+            required:true
+        }
+      
+    }
+});
 
 $("button.publish").on("click", function(e){
 

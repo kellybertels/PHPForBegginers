@@ -54,6 +54,16 @@ class User
         }
     }
 
+    public static function getAll($conn){
+        $sql = "SELECT *
+        FROM user
+        ORDER BY username;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getUserByID($conn, $id, $columns = '*')
     {
         $sql = "SELECT $columns
@@ -94,6 +104,7 @@ protected function validate()
     if ($this->password == '') {
         $this->errors[] = 'Please enter a password';
     }
+    
 
    
 
