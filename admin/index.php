@@ -15,11 +15,11 @@ $articles = Article::getPage($conn, $paginator->limit,$paginator->offset);
 
 
 
-
+<div id='menu'>
 <h2>Administration</h2>
-<p><a href="new-article.php">New article</a></p>
-<p><a href="manage-users.php">Manage Users</a></p>
-
+<p><a class='cool-link' href="new-article.php">New article</a></p>
+<p><a class='cool-link' href="manage-users.php">Manage Users</a></p>
+</div>
 <?php if (empty($articles)) : ?>
     <p>No articles found.</p>
 <?php else : ?>

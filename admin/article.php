@@ -15,10 +15,11 @@ if (isset($_GET['id'])) {
 ?>
 <?php require '../includes/header.php'; ?>
 
-
-    <article>
+    <article >
         <!-- //this code makes the article do not repeat when it is in more than one category -->
-        <h2><?= htmlspecialchars($article[0]['title']); ?></h2>
+     
+        <h2 ><?= htmlspecialchars($article[0]['title']); ?></h2>
+
         <?php if ($article) : ?>
     <?php if ($article[0]['published_at']) : ?>
                             <time><?= $article[0]['published_at'] ?></time>
@@ -50,3 +51,5 @@ if (isset($_GET['id'])) {
 <?php endif; ?>
 
 <?php require '../includes/footer.php'; ?>
+
+

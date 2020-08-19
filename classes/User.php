@@ -93,7 +93,16 @@ class User
     return $conn->query("SELECT COUNT(*) FROM user$condition")->fetchColumn();
 }
 
+public function delete($conn){
+    $sql = "DELETE FROM user
+            WHERE id = :id;";
 
+$stmt = $conn->prepare($sql);
+
+$stmt ->bindValue(':id',$this->id,PDO::PARAM_INT);
+
+return $stmt->execute();
+}
 
 
 protected function validate()
@@ -137,6 +146,52 @@ public function create($conn)
         return false;
     }
 }
+
+public static function getPage($conn, $limit, $offset, $only_published = false)
+    {
+        $condition = $only_published ? ' WHERE published_at IS NOT NULL' : '';
+
+        $sql = "
+                    SELECT *
+                    FROM user
+                    
+                    ORDER BY username;";
+
+
+                  
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Consolidate the article records into a single element for each article,
+        // putting the category names into an array
+        $users = [];
+
+        $previous_id = null;
+
+        foreach ($results as $row) {
+
+            $article_id = $row['id'];
+
+            if ($article_id != $previous_id) {
+                $row['category_names'] = [];
+
+                $users[$article_id] = $row;
+            }
+
+            $users[$article_id]['category_names'][] = $row['category_name'];
+
+            $previous_id = $article_id;
+        }
+
+        return $users;
+    }
   
 
 
