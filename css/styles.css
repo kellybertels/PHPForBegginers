@@ -1,3 +1,17 @@
+/* 
+color pallete reference link: https://colorpalettes.net/color-palette-3797/
+
+dark orange: #de6600
+gold yellow: #fea02f
+cream: #ebd9c8
+teal: #007a7a
+dark Blue: #003f5a
+
+
+*/
+
+
+
 ul#index{
     padding-left:0;
     list-style-type: none;
@@ -9,21 +23,51 @@ ul#index{
 
 a {
     text-decoration: underline;
+    color: #de6600;
 }
+
 
 
 page-item{
     text-decoration: underline;
 }
 
+#menu a{
+    text-decoration:none;
+    color: #007a7a  ;
+    font-weight: bold;
+}
+#menu a:hover{
+    display: inline-block;
+    
+ 
+    
+    
+}
+.cool-link::after{
+    content:'';
+    display:block;
+    width:0;
+    height: 2px;
+    background:#003f5a;
+    
+}
+.cool-link:hover::after{
+    width: 100%;
+    transition:width .3s
+}
+
+
+
+
+
+
 
 #categories {
     font-size: 16px;
     text-align: left;
-    color:#1e4845;
-    box-shadow: 2px 5px 25px;
     padding-left: 25px;
-    border-radius: 5px;
+  
 
 }
 
@@ -53,15 +97,17 @@ nav a:hover{
     border-radius:10%;
 }
 
+
 h2 a:hover{
     color:#1e4845;
-    background-color:#aebfbe;
-
-   
+    background-color:#aebfbe;   
 }
 h2 a{
     color: black;
     text-decoration:none;
+}
+h2 {
+    color:red;
 }
 
 
@@ -75,6 +121,7 @@ p {
 	line-height: 25px;
     margin: 0 0 15px 0;
     text-align: justify;
+    text-indent:35px;
 }
 
 h1 {
@@ -100,4 +147,22 @@ h5 {
 h6 {
 	font-size: 16px;
 }
+
+#aTitle {
+
+    text-align: left;
+    color:#5d706f;
+    box-shadow: 2px 5px 25px;
+    padding-left: 25px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-radius: 5px;
+      
+}
+
+
+
+
+
+
 
