@@ -1,6 +1,6 @@
 <?php
 
-require 'includes/init.php';
+// require 'includes/init.php'; why write multiple lines for same process . Reduce the code.
 
 $conn = require 'includes/db.php';
 
@@ -19,9 +19,9 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset, true)
         <?php foreach ($articles as $article) : ?>
             <li>
                 <article>
-                    <h2 id=aTitle ><a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
+                    <h2 id=aTitle ><a href="article.php?id=<?php = $article['id']; ?>"><?php = htmlspecialchars($article['title']); ?></a></h2>
 
-                    <time datetime="<?= $article['published_at'] ?>"><?php
+                    <time datetime="<?php = $article['published_at'] ?>"><?php
                         $datetime = new DateTime($article['published_at']);
                         echo $datetime->format("j F, Y");
                     ?></time>
@@ -30,14 +30,14 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset, true)
                         <p id="categories">Categories:
                             <?php foreach ($article['category_names'] as $name) : ?>
 
-                                <?= htmlspecialchars($name); ?>
+                                <?php = htmlspecialchars($name); ?>
                                 
                             <?php endforeach; ?>
                         </p>
                         <?php else : ?>
                     <?php endif; ?>
 
-                    <p><?= htmlspecialchars($article['content']); ?></p>
+                    <p><?php = htmlspecialchars($article['content']); ?></p>
                 </article>
             </li>
         <?php endforeach; ?>
